@@ -209,6 +209,8 @@ class PromptServer():
 
             def image_save_function(image, post, filepath):
                 original_ref = json.loads(post.get("original_ref"))
+                logging.info(f"[original_ref] \"{original_ref}\".")
+
                 filename, output_dir = folder_paths.annotated_filepath(original_ref['filename'])
 
                 # validation for security: prevent accessing arbitrary path
@@ -229,6 +231,7 @@ class PromptServer():
                     output_dir = full_output_dir
 
                 file = os.path.join(output_dir, filename)
+                logging.info(f"[original_ref_file] \"{file}\".")
 
                 if os.path.isfile(file):
                     with Image.open(file) as original_pil:
@@ -244,6 +247,7 @@ class PromptServer():
                         original_pil.putalpha(new_alpha)
                         original_pil.save(filepath, compress_level=4, pnginfo=metadata)
 
+            logging.info(f"[post] \"{post}\".")
             return image_upload(post, image_save_function)
 
         @routes.get("/view")
