@@ -347,6 +347,8 @@ class PromptServer():
                 return web.Response(status=404)
 
             safetensors_path = folder_paths.get_full_path(folder_name, filename)
+            logging.info(f"[folder_paths] \"{folder_paths}\".")
+
             if safetensors_path is None:
                 return web.Response(status=404)
             out = comfy.utils.safetensors_header(safetensors_path, max_size=1024*1024)
